@@ -1,0 +1,1 @@
+If you have many tech stacks in your application, and you want to deploy just one service, use the command: `docker compose up -d <service_name>`
