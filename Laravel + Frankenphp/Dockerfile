@@ -15,9 +15,15 @@ RUN ln -s /usr/bin/php82 /usr/bin/php
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
+    
+# Set working directory
+RUN mkdir -p /app
+WORKDIR /app
 
+# Copy application source
+COPY . .
 # Copy entrypoint script
-COPY deploy/entrypoint.sh /entrypoint.sh
+RUN mv deploy/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Create Folder Frankenphp
@@ -27,12 +33,5 @@ RUN mkdir -p /usr/local/frankenphp
 RUN curl -L -o franken https://github.com/dunglas/frankenphp/releases/download/v1.2.1/frankenphp-linux-x86_64 && \
 mv franken /usr/local/frankenphp && \
 chmod +x /usr/local/frankenphp/franken
-
-# Set working directory
-RUN mkdir -p /app
-WORKDIR /app
-
-# Copy application source
-COPY . .
 
 CMD ["/entrypoint.sh"]
